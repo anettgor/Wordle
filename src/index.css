@@ -147,7 +147,7 @@ h1 {
   padding: 10px;
 }
 .reset-button:hover {
-  background-color: var(--blue-transparent);
+  background-color: var(--blue-transparent-80);
 }
 .modal-text {
   display: flex;

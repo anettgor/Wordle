@@ -1,9 +1,5 @@
-import React from "react";
+import { type Guess } from "./../hooks/useWordle";
 
-type Guess = {
-  key: string;
-  color: "green" | "yellow" | "gray";
-};
 interface RowProps {
   guess?: Guess[];
   currentGuess?: string;

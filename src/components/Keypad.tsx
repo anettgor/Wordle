@@ -1,6 +1,6 @@
-import React from "react";
 import { letters } from "./../assets/keyboard";
-function Keypad({ usedKeys }) {
+import { type usedKeys } from "./../hooks/useWordle";
+function Keypad({ usedKeys }: { usedKeys: usedKeys }) {
   return (
     <div className="keypad">
       {letters &&

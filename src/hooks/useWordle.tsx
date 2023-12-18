@@ -2,9 +2,13 @@ import { useState } from "react";
 import { wordList } from "./../assets/wordList";
 import toast from "react-hot-toast";
 
-type Guess = {
+export type Guess = {
   key: string;
   color: "green" | "yellow" | "gray";
+};
+
+export type usedKeys = {
+  [key: string]: string;
 };
 const useWordle = () => {
   const generateSolution = (): string => {
@@ -13,34 +17,28 @@ const useWordle = () => {
 
   const [turn, setTurn] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [guesses, setGuesses] = useState<Array<Guess[]>>([...Array(6)]);
+  const [guesses, setGuesses] = useState<Array<Guess[]> | undefined>([
+    ...Array(6),
+  ]);
   const [history, setHistory] = useState<Array<string>>([]);
   const [isCorrect, setIsCorect] = useState<boolean>(false);
-  const [usedKeys, setUsedKeys] = useState({});
+  const [usedKeys, setUsedKeys] = useState<usedKeys>({ c: "gray" });
   const [solution, setSolution] = useState<string>(generateSolution());
   const [showModal, setShowModal] = useState(false);
-
-  type FormattedGuess = {
-    key: string;
-    color: "gray" | "green" | "yellow";
-  };
 
   const formatGuess = () => {
     const solutionArray: Array<string | null> = [...solution];
 
-    const formattedGuess: FormattedGuess[] = [...currentGuess].map(
-      (l: string) => {
-        return {
-          key: l,
-          color: "gray",
-        };
-      }
-    );
-
+    const formattedGuess: Guess[] = [...currentGuess].map((l: string) => {
+      return {
+        key: l,
+        color: "gray",
+      };
+    });
+    console.log(formattedGuess);
     formattedGuess.forEach((l, i) => {
       if (solutionArray[i] === l.key) {
         formattedGuess[i].color = "green";
-        formatGuess[i] = null;
       }
     });
 
@@ -54,7 +52,7 @@ const useWordle = () => {
     return formattedGuess;
   };
 
-  const addNewGuess = (formattedGuess) => {
+  const addNewGuess = (formattedGuess: Array<Guess>) => {
     if (currentGuess === solution) {
       setIsCorect(true);
     }
@@ -67,24 +65,28 @@ const useWordle = () => {
     setTurn((prevTurn) => prevTurn + 1);
 
     setUsedKeys((prev) => {
-      const newKeys = { ...prev };
+      const newKeys: usedKeys = { ...prev };
       formattedGuess.forEach((l) => {
         const currentColor = newKeys[l.key];
 
         if (l.color === "green") {
           newKeys[l.key] = "green";
+          console.log(newKeys);
           return;
         }
         if (l.color === "yellow" && currentColor !== "green") {
           newKeys[l.key] = "yellow";
           return;
         }
-        if (l.color === "gray" && l.color !== "green" && l.color !== "yellow") {
+        if (
+          l.color === "gray" &&
+          currentColor !== "yellow" &&
+          currentColor !== "green"
+        ) {
           newKeys[l.key] = "gray";
           return;
         }
       });
-
       return newKeys;
     });
     setCurrentGuess("");
@@ -122,7 +124,7 @@ const useWordle = () => {
       }
     }
   };
-
+  console.log(solution);
   const resetGame = () => {
     setTurn(0);
     setCurrentGuess("");

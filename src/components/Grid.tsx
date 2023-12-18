@@ -1,10 +1,5 @@
-import React from "react";
 import Row from "./Row";
-
-type Guess = {
-  key: string;
-  color: "green" | "yellow" | "gray";
-};
+import { type Guess } from "./../hooks/useWordle";
 
 function Grid({
   currentGuess,
