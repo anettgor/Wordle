@@ -17,9 +17,7 @@ const useWordle = () => {
 
   const [turn, setTurn] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [guesses, setGuesses] = useState<Array<Guess[]> | undefined>([
-    ...Array(6),
-  ]);
+  const [guesses, setGuesses] = useState<Array<Guess[]>>([...Array(6)]);
   const [history, setHistory] = useState<Array<string>>([]);
   const [isCorrect, setIsCorect] = useState<boolean>(false);
   const [usedKeys, setUsedKeys] = useState<usedKeys>({ c: "gray" });
@@ -57,10 +55,12 @@ const useWordle = () => {
       setIsCorect(true);
     }
     setGuesses((prevGuesses) => {
-      const newGuesses = [...prevGuesses];
+      const newGuesses = prevGuesses;
+
       newGuesses[turn] = formattedGuess;
       return newGuesses;
     });
+
     setHistory((prevHistory) => [...prevHistory, currentGuess]);
     setTurn((prevTurn) => prevTurn + 1);
 
@@ -71,7 +71,6 @@ const useWordle = () => {
 
         if (l.color === "green") {
           newKeys[l.key] = "green";
-          console.log(newKeys);
           return;
         }
         if (l.color === "yellow" && currentColor !== "green") {
