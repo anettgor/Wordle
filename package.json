@@ -1,6 +1,6 @@
 {
   "name": "wordle",
-  "private": true,
+  "homepage": "https://anettgor.github.io/Wordle/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
